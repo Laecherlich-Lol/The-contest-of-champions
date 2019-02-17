@@ -1,5 +1,16 @@
 import pygame
 
+def sort_by(seq, attr_name, reverse=False):
+    '''
+    Sort a list/dictionary of objects via one of its attribute name
+    :param seq: a list of objects
+    :param attr_name:
+    :param reverse: increasing if false, decreasing if true
+    :return: a sorted sequence
+    '''
+    return sorted(seq, key=lambda element: getattr(element, attr_name), reverse=reverse)
+
+
 def draw_info(surface, text, number, position, color=(255, 255, 255)):
     '''
     Draw a block with a text title and a number
@@ -10,6 +21,7 @@ def draw_info(surface, text, number, position, color=(255, 255, 255)):
     :param color: a three elements tuple (R, G, B)
     :return: None
     '''
+
     # surface -> pygame.Surface
     pygame.draw.rect(surface, color, position)
     font = pygame.font.SysFont("monospace", 20)

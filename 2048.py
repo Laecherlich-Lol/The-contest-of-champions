@@ -2,7 +2,9 @@ import pygame
 from pygame import display
 from utils import *
 from Board import Block
-
+from Board import Board
+from random import randint as rint
+import random
 # x, y axis block number
 X = 4
 Y = 4
@@ -20,7 +22,6 @@ BOARD_POS = (100, 200)
 # info
 SCORE_POS = (20, 20, 100, 100)
 RECORD_POS = (160, 20, 100, 100)
-
 
 
 def main():
@@ -43,11 +44,10 @@ def main():
     board = pygame.Surface(BOARD_SIZE, pygame.SRCALPHA, 32)
     board.fill(BOARD_COLOR)
 
-    testblock = Block(4, 1, 1)
-    # pygame.draw.rect(board, (125, 0, 0), (160, 0, 100, 100))
-
+    blocks = [Block(random.choice([2, 4, 8]), rint(0, X-1), rint(0, Y-1)) for i in range(5)]
+    base = Board(board, 4, 4)
+    base.add_blocks(blocks)
     pygame.display.flip()
-
 
     # define a variable to control the main loop
     running = True
@@ -62,33 +62,24 @@ def main():
                 running = False
 
             elif event.type == pygame.KEYDOWN:
-                print(event.key)
                 if event.key == pygame.K_UP:
-                    testblock.y = 0
+                    base.move_blocks("up")
 
                 elif event.key == pygame.K_DOWN:
-                    testblock.y = Y - 1
+                    base.move_blocks("down")
 
                 elif event.key == pygame.K_RIGHT:
-                    testblock.x = X - 1
+                    base.move_blocks("right")
 
                 elif event.key == pygame.K_LEFT:
-                    testblock.x = 0
-            board.fill(BOARD_COLOR)
-            testblock.draw(board, BOARD_SIZE[0] / X)
-            screen.blit(board, BOARD_POS)
-            pygame.display.flip()
+                    base.move_blocks("left")
 
-                # if event.key in (275, 274):
-                # print("arrow key", event.key)
+        board.fill(BOARD_COLOR)
+        base.draw_blocks()
 
-
-
-
+        screen.blit(board, BOARD_POS)
+        pygame.display.flip()
 
 if __name__ == "__main__":
     main()
 
-
-
-# score, record, restart
