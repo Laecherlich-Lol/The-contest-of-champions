@@ -1,8 +1,8 @@
 import pygame
 import time
 import math
-x = 2560
-y = 1080
+x = 1080
+y = 720
 print(pygame.init())
 logo = pygame.image.load('images.jpg')
 pygame.display.set_icon(logo)
