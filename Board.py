@@ -3,7 +3,8 @@ import utils
 
 NUM_COLOR = {2: (0, 0, 255),
              4: (0, 0, 128),
-             8: (0, 0, 64)}
+             8: (0, 0, 64),
+             16: (0, 0, 0)}
 BLOCK_FONT_SIZE = 30
 BLOCK_FONT_COLOR = (255, 255, 255)
 
@@ -47,7 +48,8 @@ class Board:
                     if getattr(block, group_attr) == i:
                         group.append(block)
 
-                sorted_blocks = utils.sort_by(group, sort_attr, False)
+                tf = direction == 'down' or direction == 'right'
+                sorted_blocks = utils.sort_by(group, sort_attr, tf)
                 for index, block in enumerate(sorted_blocks):
                     if direction == 'up' or direction == 'left':
                         setattr(block, sort_attr, index)
@@ -57,3 +59,10 @@ class Board:
     def draw_blocks(self):
         for block in self.blocks:
             block.draw(self.surface, self.unit)
+
+    # def merge_blocks(self):
+    #     new_blocks = []
+    #     for i in range(self.Y):
+    #         if
+
+
