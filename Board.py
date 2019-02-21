@@ -1,5 +1,6 @@
 import pygame
 import utils
+import random
 
 NUM_COLOR = {2: (0, 0, 255),
              4: (0, 0, 128),
@@ -32,6 +33,13 @@ class Board:
         self.Y = ncol
         self.blocks = []
 
+        self.coord_pool = []
+        for i in range(self.X):
+            for j in range(self.Y):
+                self.coord_pool.append((i, j))
+
+
+
     def add_blocks(self, blocks):
         for block in blocks:
             self.blocks.append(block)
@@ -50,19 +58,46 @@ class Board:
 
                 tf = direction == 'down' or direction == 'right'
                 sorted_blocks = utils.sort_by(group, sort_attr, tf)
+
+                for i in range(len(sorted_blocks) - 1):
+                    print(i)
+
+                    if i + 1 >= len(sorted_blocks):
+                        break
+
+                    if sorted_blocks[i].value == sorted_blocks[i+1].value:
+
+
+                        sorted_blocks[i].value += sorted_blocks[i+1].value
+                        # print(sorted_blocks[i+1])
+                        self.blocks.remove(sorted_blocks[i+1])
+                        del sorted_blocks[i+1]
+
                 for index, block in enumerate(sorted_blocks):
                     if direction == 'up' or direction == 'left':
                         setattr(block, sort_attr, index)
                     else:
                         setattr(block, sort_attr, self.X - index - 1) #TODO: extend to rectangle
 
+
+            self.duang()
+
     def draw_blocks(self):
         for block in self.blocks:
             block.draw(self.surface, self.unit)
 
-    # def merge_blocks(self):
-    #     new_blocks = []
-    #     for i in range(self.Y):
-    #         if
+    def duang(self):
+        # use number to represant location (X: the digit at 10^1, Y: at 10^0)
+        temp_list = self.coord_pool.copy()
+        # print("Duang")
+        for block in self.blocks:
+            temp = (block.x, block.y)
+            # print(temp)
+
+            temp_list.remove(temp)
+            # print(self.coord_pool)
+        the_chosen_one = random.choice(temp_list)
+
+        self.add_blocks([Block(random.choice([2, 4]), the_chosen_one[0], the_chosen_one[1])])
 
 

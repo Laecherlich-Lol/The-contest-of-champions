@@ -44,9 +44,11 @@ def main():
     board = pygame.Surface(BOARD_SIZE, pygame.SRCALPHA, 32)
     board.fill(BOARD_COLOR)
 
-    blocks = [Block(random.choice([2, 4, 8]), rint(0, X-1), rint(0, Y-1)) for i in range(5)]
+    # blocks = [Block(random.choice([2, 4, 8]), rint(0, X-1), rint(0, Y-1)) for i in range(5)]
     base = Board(board, 4, 4)
-    base.add_blocks(blocks)
+    for i in range(5):
+        base.duang()
+    # base.add_blocks(blocks)
     pygame.display.flip()
 
     # define a variable to control the main loop
@@ -73,6 +75,7 @@ def main():
 
                 elif event.key == pygame.K_LEFT:
                     base.move_blocks("left")
+
 
         board.fill(BOARD_COLOR)
         base.draw_blocks()
