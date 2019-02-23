@@ -1,4 +1,5 @@
 import pygame
+import person
 
 SCREEN = (1080, 720)
 
@@ -20,9 +21,14 @@ pygame.draw.rect(screen, (GROUND_COLOR), pygame.Rect((GROUND_POS), (GROUND_SIZE)
 pygame.draw.rect(screen, (BACKGROUND_COLOR), pygame.Rect((BACKGROUND_POS), (BACKGROUND_SIZE)))
 pygame.display.flip()
 
+
+me = person.Person()
+me.person_draw(screen, SCREEN, 'small')
+
 running = True
 
 while running:
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
