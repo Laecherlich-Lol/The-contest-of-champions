@@ -44,42 +44,39 @@ class Board:
             for j in range(self.Y):
                 self.coord_pool.append((i, j))
 
-
-
     def add_blocks(self, blocks):
         for block in blocks:
             self.blocks.append(block)
 
     def move_blocks(self, direction):
+        self.direction = direction
+        for i in range(self.Y):  #TODO: extend to rectangle
+            group = []
 
-            for i in range(self.Y):  #TODO: extend to rectangle
-                group = []
+            group_attr = 'y' if direction == 'up' or direction == 'down' else 'x'
+            sort_attr = 'x' if direction == 'up' or direction == 'down' else 'y'
 
-                group_attr = 'y' if direction == 'up' or direction == 'down' else 'x'
-                sort_attr = 'x' if direction == 'up' or direction == 'down' else 'y'
+            for block in self.blocks:    # group a row or col
+                if getattr(block, group_attr) == i:
+                    group.append(block)
 
-                for block in self.blocks:    # group a row or col
-                    if getattr(block, group_attr) == i:
-                        group.append(block)
+            tf = direction == 'down' or direction == 'right'
+            sorted_blocks = utils.sort_by(group, sort_attr, tf)
 
-                tf = direction == 'down' or direction == 'right'
-                sorted_blocks = utils.sort_by(group, sort_attr, tf)
+            for i in range(len(sorted_blocks) - 1):
+                if i + 1 >= len(sorted_blocks):
+                    break
 
-                for i in range(len(sorted_blocks) - 1):
-                    if i + 1 >= len(sorted_blocks):
-                        break
+                if sorted_blocks[i].value == sorted_blocks[i+1].value:
+                    sorted_blocks[i].value += sorted_blocks[i+1].value
+                    self.blocks.remove(sorted_blocks[i+1])
+                    del sorted_blocks[i+1]
 
-                    if sorted_blocks[i].value == sorted_blocks[i+1].value:
-                        sorted_blocks[i].value += sorted_blocks[i+1].value
-                        self.blocks.remove(sorted_blocks[i+1])
-                        del sorted_blocks[i+1]
-
-                for index, block in enumerate(sorted_blocks):
-                    if direction == 'up' or direction == 'left':
-                        setattr(block, sort_attr, index)
-                    else:
-                        setattr(block, sort_attr, self.X - index - 1) #TODO: extend to rectangle
-
+            for index, block in enumerate(sorted_blocks):
+                if direction == 'up' or direction == 'left':
+                    setattr(block, sort_attr, index)
+                else:
+                    setattr(block, sort_attr, self.X - index - 1) #TODO: extend to rectangle
 
             self.duang()
 
@@ -101,7 +98,10 @@ class Board:
             the_chosen_one = random.choice(temp_list)
             self.add_blocks([Block(random.choice([2, 4]), the_chosen_one[0], the_chosen_one[1])])
         except IndexError:
-            print("! You lost")
+            # pass
+            if self.check_stuck():
+                print("! You lost")
+            else: pass
 
 
     def get_score(self):
@@ -109,5 +109,26 @@ class Board:
         if max >= 128:
             print("! You win")
         return max
+
+    def check_stuck(self):
+        group_attr = 'y' if self.direction == 'up' or self.direction == 'down' else 'x'
+        sort_attr = 'x' if self.direction == 'up' or self.direction == 'down' else 'y'
+
+        for i in range(self.X):
+            group = []
+
+            for block in self.blocks:    # group a row or col
+                if getattr(block, group_attr) == i:
+                    group.append(block)
+            sorted_blocks = utils.sort_by(group, sort_attr)
+
+            for i in range(len(sorted_blocks) - 1):
+                if sorted_blocks[i].value == sorted_blocks[i + 1].value:
+                    print("Here")
+                    return False
+        return True
+
+
+
 
 
