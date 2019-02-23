@@ -1,11 +1,17 @@
 import pygame
 import utils
 import random
+import numpy as np
 
-NUM_COLOR = {2: (0, 0, 255),
-             4: (0, 0, 128),
-             8: (0, 0, 64),
-             16: (0, 0, 0)}
+# NUM_COLOR = {2: (0, 0, 255),
+#              4: (0, 0, 128),
+#              8: (0, 0, 64),
+#              16: (0, 0, 0)}
+NUM_COLOR = {}
+for i in range(11):
+    NUM_COLOR[2**(i+1)] = (0, 0, 255 - 255/(11) * (i+1))
+
+
 BLOCK_FONT_SIZE = 30
 BLOCK_FONT_COLOR = (255, 255, 255)
 
@@ -60,16 +66,11 @@ class Board:
                 sorted_blocks = utils.sort_by(group, sort_attr, tf)
 
                 for i in range(len(sorted_blocks) - 1):
-                    print(i)
-
                     if i + 1 >= len(sorted_blocks):
                         break
 
                     if sorted_blocks[i].value == sorted_blocks[i+1].value:
-
-
                         sorted_blocks[i].value += sorted_blocks[i+1].value
-                        # print(sorted_blocks[i+1])
                         self.blocks.remove(sorted_blocks[i+1])
                         del sorted_blocks[i+1]
 
@@ -96,8 +97,17 @@ class Board:
 
             temp_list.remove(temp)
             # print(self.coord_pool)
-        the_chosen_one = random.choice(temp_list)
+        try:
+            the_chosen_one = random.choice(temp_list)
+            self.add_blocks([Block(random.choice([2, 4]), the_chosen_one[0], the_chosen_one[1])])
+        except IndexError:
+            print("! You lost")
 
-        self.add_blocks([Block(random.choice([2, 4]), the_chosen_one[0], the_chosen_one[1])])
+
+    def get_score(self):
+        max = np.max([block.value for block in self.blocks])
+        if max >= 128:
+            print("! You win")
+        return max
 
 
