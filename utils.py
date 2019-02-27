@@ -1,4 +1,5 @@
 import pygame
+# import game
 
 def sort_by(seq, attr_name, reverse=False):
     '''
@@ -30,3 +31,6 @@ def draw_info(surface, text, number, position, color=(255, 255, 255)):
     surface.blit(text_render, position)
     num_position = (position[0], position[1]+position[3]/2)
     surface.blit(num_render, num_position)
+
+
+

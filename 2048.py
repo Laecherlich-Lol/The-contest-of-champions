@@ -4,7 +4,7 @@ import game
 
 X = 4
 Y = 4
-INIT_BLOCK = 5
+INIT_BLOCK = 2
 
 
 def main():
@@ -13,7 +13,7 @@ def main():
     mygame = game.Game(X, Y, INIT_BLOCK)
     # define a variable to control the main loop
     running = True
-
+    status = True
     # main loop
     while running:
         # event handling, gets  all event from the event queue
@@ -21,22 +21,23 @@ def main():
             # only do something if the event is of type QUIT
             if event.type == pygame.QUIT or pygame.key.get_pressed()[pygame.K_q]:
                 # change the value to False, to exit the main loop
+                mygame.record()
                 running = False
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
-                    mygame.base.move_blocks("up")
+                    status = mygame.base.move_blocks("up")
 
                 elif event.key == pygame.K_DOWN:
-                    mygame.base.move_blocks("down")
+                    status = mygame.base.move_blocks("down")
 
                 elif event.key == pygame.K_RIGHT:
-                    mygame.base.move_blocks("right")
+                    status = mygame.base.move_blocks("right")
 
                 elif event.key == pygame.K_LEFT:
-                    mygame.base.move_blocks("left")
+                    status = mygame.base.move_blocks("left")
 
-        mygame.update()
+        mygame.update(status)
 
 
 if __name__ == "__main__":

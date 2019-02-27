@@ -36,7 +36,10 @@ class Game:
         self.screen = display.set_mode(SCREEN_SIZE)
         self.screen.fill(BACKGROUND_COLOR)
 
-        draw_info(self.screen, "Record", 2048, RECORD_POS)
+        self.high_record = open('record', 'r')
+        self.real_record = int(self.high_record.read())
+        self.high_record.close()
+        draw_info(self.screen, "Record", self.real_record, RECORD_POS)
         # pygame.draw.rect(screen, BOARD_COLOR, BOARD_POS)
         self.board = pygame.Surface(BOARD_SIZE, pygame.SRCALPHA, 32)
         self.board.fill(BOARD_COLOR)
@@ -48,15 +51,28 @@ class Game:
         # base.add_blocks(blocks)
         pygame.display.flip()
 
-    def update(self):
+    def update(self, status):
         self.board.fill(BOARD_COLOR)
         self.base.draw_blocks()
         draw_info(self.screen, "Score", self.base.get_score(), SCORE_POS)
+        if status:
+            self.screen.blit(self.board, BOARD_POS)
+            self.record()
+            pygame.display.flip()
+        else:
+            self.screen.blit(self.board, BOARD_POS)
+            logo = pygame.image.load('YOU LOST!!!.jpg')
+            logo.set_colorkey((0, 0, 0))
+            self.screen.blit(logo, (0, 0))
+            self.record()
+            pygame.display.flip()
 
-        self.screen.blit(self.board, BOARD_POS)
-        pygame.display.flip()
-
-
+    def record(self):
+        if self.base.get_score() > self.real_record:
+            self.high_record = open('record', 'w')
+            draw_info(self.screen, "Record", self.base.get_score(), RECORD_POS)
+            self.high_record.write(str(self.base.get_score()))
+            self.high_record.close()
 
 
 

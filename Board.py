@@ -2,19 +2,19 @@ import pygame
 import utils
 import random
 import numpy as np
+import game
 
 # NUM_COLOR = {2: (0, 0, 255),
 #              4: (0, 0, 128),
 #              8: (0, 0, 64),
 #              16: (0, 0, 0)}
 NUM_COLOR = {}
-for i in range(11):
-    NUM_COLOR[2**(i+1)] = (0, 0, 255 - 255/(11) * (i+1))
+for i in range(20):
+    NUM_COLOR[2**(i+1)] = (0, 0, 255 - 255/(20) * (i+1))
 
 
 BLOCK_FONT_SIZE = 30
 BLOCK_FONT_COLOR = (255, 255, 255)
-
 
 class Block:
     def __init__(self, value, row, col):
@@ -78,13 +78,14 @@ class Board:
                 else:
                     setattr(block, sort_attr, self.X - index - 1) #TODO: extend to rectangle
 
-            self.duang()
+        return self.duang()
 
     def draw_blocks(self):
         for block in self.blocks:
             block.draw(self.surface, self.unit)
 
     def duang(self):
+        print('duang')
         # use number to represant location (X: the digit at 10^1, Y: at 10^0)
         temp_list = self.coord_pool.copy()
         # print("Duang")
@@ -96,23 +97,31 @@ class Board:
             # print(self.coord_pool)
         try:
             the_chosen_one = random.choice(temp_list)
-            self.add_blocks([Block(random.choice([2, 4]), the_chosen_one[0], the_chosen_one[1])])
+            self.add_blocks([Block(random.choice([4096]), the_chosen_one[0], the_chosen_one[1])])
+            if len(self.blocks) == self.X * self.Y:
+                if self.check_stuck():
+                    print('a')
+                    # self.lost(self.surface)
+                    return False
+            print(len(self.blocks))
         except IndexError:
             # pass
             if self.check_stuck():
-                print("! You lost")
-            else: pass
-
+                print('a')
+                # self.lost(self.surface)
+                return False
+            else: return True
+        return True
 
     def get_score(self):
         max = np.max([block.value for block in self.blocks])
-        if max >= 128:
-            print("! You win")
+        # if max >= 128:
+        #     print("! You win")
         return max
 
     def check_stuck(self):
-        group_attr = 'y' if self.direction == 'up' or self.direction == 'down' else 'x'
-        sort_attr = 'x' if self.direction == 'up' or self.direction == 'down' else 'y'
+        group_attr = 'x' if self.direction == 'up' or self.direction == 'down' else 'y'
+        sort_attr = 'y' if self.direction == 'up' or self.direction == 'down' else 'x'
 
         for i in range(self.X):
             group = []
@@ -128,7 +137,8 @@ class Board:
                     return False
         return True
 
-
-
+    def lost(self, surface):
+        print("in lost")
+        pygame.display.flip()
 
 
