@@ -1,29 +1,20 @@
 import pygame
 import person
 
-SCREEN = (1080, 720)
+SCREEN = (540, 960)
 
-GROUND_COLOR = (155, 155, 155)
-GROUND_SIZE = (1080, 240)
-GROUND_POS = (0, SCREEN[1]-GROUND_SIZE[1])
-
-BACKGROUND_COLOR = (125, 0, 255)
-BACKGROUND_SIZE = (1080, SCREEN[1]-GROUND_SIZE[1])
-BACKGROUND_POS = (0, 0)
-
+TRACK = (SCREEN[0]/3, SCREEN[1])
 pygame.init()
-logo = pygame.image.load('246x0w.jpg')
+logo = pygame.image.load('images.jpg')
 pygame.display.set_icon(logo)
-pygame.display.set_caption('FIGHT')
+pygame.display.set_caption('run')
 
 screen = pygame.display.set_mode((SCREEN))
-pygame.draw.rect(screen, (GROUND_COLOR), pygame.Rect((GROUND_POS), (GROUND_SIZE)))
-pygame.draw.rect(screen, (BACKGROUND_COLOR), pygame.Rect((BACKGROUND_POS), (BACKGROUND_SIZE)))
 pygame.display.flip()
 
 
-me = person.Person()
-me.person_draw(screen, SCREEN, 'small')
+me = person.Person(1, screen, SCREEN)
+me.person_draw()
 
 running = True
 
@@ -32,3 +23,9 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                me.move_person('left')
+            if event.key == pygame.K_RIGHT:
+                me.move_person('right')
