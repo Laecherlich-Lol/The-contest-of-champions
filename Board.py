@@ -97,7 +97,7 @@ class Board:
             # print(self.coord_pool)
         try:
             the_chosen_one = random.choice(temp_list)
-            self.add_blocks([Block(random.choice([4096]), the_chosen_one[0], the_chosen_one[1])])
+            self.add_blocks([Block(random.choice([2, 4]), the_chosen_one[0], the_chosen_one[1])])
             if len(self.blocks) == self.X * self.Y:
                 if self.check_stuck():
                     print('a')
