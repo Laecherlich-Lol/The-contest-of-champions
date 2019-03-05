@@ -2,7 +2,7 @@
 pyschool -> Practice -> Lists -> 26. List Comprehension
 
 ### Build-in Functions
-pyschool -> Practice -> Lists -> 1 - 10 
+pyschool -> Practice -> Build-in functions -> 1 - 10 
 
 ### Reading
 Python基础教程第3版 -> Chapter 5
