@@ -16,15 +16,10 @@ class Person:
         if instruction == 'left':
             if self.track_num > 0:
                 self.track_num -= 1
-                self.person_draw()
-                pygame.display.flip()
-                print(self.track_num)
             else:
                 pass
         elif instruction == 'right':
             if self.track_num < 2:
                 self.track_num += 1
-                self.person_draw()
-                pygame.display.flip()
             else:
                 pass
