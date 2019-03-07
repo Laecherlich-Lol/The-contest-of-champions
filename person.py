@@ -8,9 +8,8 @@ class Person:
         self.screensize = screensize
         self.track_num = track_num
 
-    def person_draw(self, color=(169, 36, 100)):
+    def person_draw(self, color=0x0E0301):
         pygame.draw.rect(self.screen, color, pygame.Rect(self.screensize[0]/3*self.track_num+30, 720, 120, 120))
-        pygame.display.flip()
 
     def move_person(self, instruction):
         if instruction == 'left':
