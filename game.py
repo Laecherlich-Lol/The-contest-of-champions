@@ -12,14 +12,14 @@ class Game:
         pygame.display.set_caption('run')
 
         self.screen = pygame.display.set_mode(self.SCREEN)
-        Track.draw_track(self.screen, self.SCREEN)
+        Track.generate_track(self.screen, self.SCREEN)
         pygame.display.flip()
 
         self.me = person.Person(1, self.screen, self.SCREEN)
         self.me.person_draw()
 
     def update(self):
-        Track.draw_track(self.screen, self.SCREEN)
+        Track.generate_track(self.screen, self.SCREEN)
         self.me.person_draw()
         pygame.display.flip()
 
