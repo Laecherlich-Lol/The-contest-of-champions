@@ -36,16 +36,40 @@ class ProjectionViewer:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
                         for dings in self.objects.values():
-                            # dings.move('up', 20, dings)
-                            dings.rotate('x')
+                            dings.move('up', 20, dings)
                     if event.key == pygame.K_DOWN:
                         for dings in self.objects.values():
-                            # dings.move('up', 20, dings)
-                            dings.rotate('y')
+                            dings.move('down', 20, dings)
                     if event.key == pygame.K_LEFT:
                         for dings in self.objects.values():
-                            # dings.move('up', 20, dings)
+                            dings.move('left', 20, dings)
+                    if event.key == pygame.K_RIGHT:
+                        for dings in self.objects.values():
+                            dings.move('right', 20, dings)
+                    if event.key == pygame.K_w:
+                        for dings in self.objects.values():
+                            dings.rotate('x')
+                    if event.key == pygame.K_s:
+                        for dings in self.objects.values():
+                            dings.rotate('x', angle=-1)
+                    if event.key == pygame.K_a:
+                        for dings in self.objects.values():
+                            dings.rotate('y')
+                    if event.key == pygame.K_d:
+                        for dings in self.objects.values():
+                            dings.rotate('y', angle=-1)
+                    if event.key == pygame.K_q:
+                        for dings in self.objects.values():
                             dings.rotate('z')
+                    if event.key == pygame.K_e:
+                        for dings in self.objects.values():
+                            dings.rotate('z', angle=-1)
+                    if event.key == pygame.K_g:
+                        for dings in self.objects.values():
+                            dings.scale(1.25)
+                    if event.key == pygame.K_k:
+                        for dings in self.objects.values():
+                            dings.scale(0.8)
             self.display()
             pygame.display.flip()
 
