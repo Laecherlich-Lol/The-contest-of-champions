@@ -16,3 +16,4 @@ while running:
             if event.key == pygame.K_RIGHT:
                 thisgame.me.move_person('right')
         thisgame.update()
+
