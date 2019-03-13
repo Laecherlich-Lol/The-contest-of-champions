@@ -1,5 +1,6 @@
 import numpy as np
 import math
+from OpenGL.GL import *
 
 class Node:
     def __init__(self, coordinates):
@@ -37,37 +38,26 @@ class Object:
         for i, edge in enumerate(self.edges):
             print(" %d: (%.2f, %.2f, %.2f) -> (%.2f, %.2f, %.2f)" % (i, edge.start.x, edge.start.y, edge.start.z, edge.stop.x, edge.stop.y, edge.stop.z))
 
-    def scale(self, n, ref=(0, 0)):
+    def scale(self, n):
+        ref = self.get_center()
         for node in self.nodes:
-            node.x = (node.x-1)*n+ref[0]
-            node.y = (node.y-1)*n+ref[1]
-            node.z *= n
+            node.x = (node.x-ref[0])*n+ref[0]
+            node.y = (node.y-ref[1])*n+ref[1]
+            node.z = (node.z-ref[2])*n+ref[2]
 
-    def move(self, direction, distance, object):
-        if direction == 'left':
-            for node in object.nodes:
+    def move(self, direction, distance):
+        if direction == 'left' or direction == 'right':
+            for node in self.nodes:
                 node.x -= distance
-            for edge in object.edges:
+            for edge in self.edges:
                 edge.start.x -= distance
                 edge.stop.x -= distance
-        elif direction == 'right':
-            for node in object.nodes:
-                node.x += distance
-            for edge in object.edges:
-                edge.start.x += distance
-                edge.stop.x += distance
-        elif direction == 'up':
-            for node in object.nodes:
+        elif direction == 'up' or direction == 'down':
+            for node in self.nodes:
                 node.y -= distance
-            for edge in object.edges:
+            for edge in self.edges:
                 edge.start.y -= distance
                 edge.stop.y -= distance
-        elif direction == 'down':
-            for node in object.nodes:
-                node.y += distance
-            for edge in object.edges:
-                edge.start.y += distance
-                edge.stop.y += distance
 
     def rotation(self, rec_coords, angle, orig_coords):
         a, b = rec_coords
@@ -107,6 +97,6 @@ if __name__ == "__main__":
     cube.addEdges([(n, n + 2) for n in (0, 1, 4, 5)])
     cube.outputNodes()
     cube.outputEdges()
-    cube.rotate_z()
+    cube.rotate()
     cube.outputNodes()
     cube.outputEdges()

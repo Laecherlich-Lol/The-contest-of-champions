@@ -1,6 +1,13 @@
 import Object
 import pygame
+import math
 
+key2function = {pygame.K_UP: lambda x:x.move('up', 1), pygame.K_DOWN:lambda x:x.move('down', -1),
+                pygame.K_LEFT: lambda x:x.move('left', 1), pygame.K_RIGHT: lambda x:x.move('right', -1),
+                pygame.K_w: lambda x:x.rotate('x'), pygame.K_s: lambda x:x.rotate('x', angle=-1),
+                pygame.K_a: lambda x:x.rotate('y'), pygame.K_d: lambda x:x.rotate('y', angle=-1),
+                pygame.K_q: lambda x:x.rotate('z'), pygame.K_e: lambda x:x.rotate('z', angle=-1),
+                pygame.K_g: lambda x:x.scale(1.1), pygame.K_k: lambda x:x.scale(1/1.1)}
 
 class ProjectionViewer:
     """ Displays 3D objects on a Pygame screen """
@@ -15,9 +22,12 @@ class ProjectionViewer:
         self.objects = {}
         self.displayNodes = True
         self.displayEdges = True
+        self.perspective = True
         self.nodeColour = (255, 255, 255)
         self.edgeColour = (200, 200, 200)
         self.nodeRadius = 4
+        self.fov = math.sqrt(2)
+        self.d = (self.width/2) / math.tan(self.fov/2)
 
     def addobject(self, name, object):
         """ Add a named object object. """
@@ -34,42 +44,8 @@ class ProjectionViewer:
                     running = False
 
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP:
-                        for dings in self.objects.values():
-                            dings.move('up', 20, dings)
-                    if event.key == pygame.K_DOWN:
-                        for dings in self.objects.values():
-                            dings.move('down', 20, dings)
-                    if event.key == pygame.K_LEFT:
-                        for dings in self.objects.values():
-                            dings.move('left', 20, dings)
-                    if event.key == pygame.K_RIGHT:
-                        for dings in self.objects.values():
-                            dings.move('right', 20, dings)
-                    if event.key == pygame.K_w:
-                        for dings in self.objects.values():
-                            dings.rotate('x')
-                    if event.key == pygame.K_s:
-                        for dings in self.objects.values():
-                            dings.rotate('x', angle=-1)
-                    if event.key == pygame.K_a:
-                        for dings in self.objects.values():
-                            dings.rotate('y')
-                    if event.key == pygame.K_d:
-                        for dings in self.objects.values():
-                            dings.rotate('y', angle=-1)
-                    if event.key == pygame.K_q:
-                        for dings in self.objects.values():
-                            dings.rotate('z')
-                    if event.key == pygame.K_e:
-                        for dings in self.objects.values():
-                            dings.rotate('z', angle=-1)
-                    if event.key == pygame.K_g:
-                        for dings in self.objects.values():
-                            dings.scale(1.25)
-                    if event.key == pygame.K_k:
-                        for dings in self.objects.values():
-                            dings.scale(0.8)
+                    for dings in self.objects.values():
+                        key2function[event.key](dings)
             self.display()
             pygame.display.flip()
 
@@ -80,13 +56,14 @@ class ProjectionViewer:
         for dings in self.objects.values():
             for node in dings.nodes:
                 pygame.draw.circle(self.screen, self.nodeColour, (
-                    round(node.x), round(node.y)), self.nodeRadius)
+                    round(node.x * self.d/node.z), round(node.y * self.d/node.z)), self.nodeRadius)
             for edge in dings.edges:
                 pygame.draw.line(self.screen, self.edgeColour,
-                                 (round(edge.start.x), round(edge.start.y)), (edge.stop.x, edge.stop.y))
+                                 (round(edge.start.x * self.d/edge.start.z), round(edge.start.y * self.d/edge.start.z)),
+                                 (edge.stop.x * self.d/edge.stop.z, edge.stop.y * self.d/edge.stop.z))
 
 if __name__ == '__main__':
-    pv = ProjectionViewer(1000, 1000)
+    pv = ProjectionViewer(2000, 2000)
 
     cube = Object.Object()
     cube.addNodes([(x, y, z) for x in (50, 250) for y in (50, 250) for z in (50, 250)])
@@ -96,5 +73,5 @@ if __name__ == '__main__':
     pv.addobject('cube', cube)
     pv.addobject('cube2', cube)
     pv.objects['cube'].scale(1)
-    pv.objects['cube'].move('down', 20, pv.objects['cube'])
+    pv.objects['cube'].move('down', 20)
     pv.run()
