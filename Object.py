@@ -1,3 +1,7 @@
+import numpy as np
+import math
+from OpenGL.GL import *
+
 class Node:
     def __init__(self, coordinates):
         self.x = coordinates[0]
@@ -34,6 +38,55 @@ class Object:
         for i, edge in enumerate(self.edges):
             print(" %d: (%.2f, %.2f, %.2f) -> (%.2f, %.2f, %.2f)" % (i, edge.start.x, edge.start.y, edge.start.z, edge.stop.x, edge.stop.y, edge.stop.z))
 
+    def scale(self, n):
+        ref = self.get_center()
+        for node in self.nodes:
+            node.x = (node.x-ref[0])*n+ref[0]
+            node.y = (node.y-ref[1])*n+ref[1]
+            node.z = (node.z-ref[2])*n+ref[2]
+
+    def move(self, direction, distance):
+        if direction == 'left' or direction == 'right':
+            for node in self.nodes:
+                node.x -= distance
+            for edge in self.edges:
+                edge.start.x -= distance
+                edge.stop.x -= distance
+        elif direction == 'up' or direction == 'down':
+            for node in self.nodes:
+                node.y -= distance
+            for edge in self.edges:
+                edge.start.y -= distance
+                edge.stop.y -= distance
+
+    def rotation(self, rec_coords, angle, orig_coords):
+        a, b = rec_coords
+        c0, c1 = orig_coords
+        rho = math.hypot(a-c0, b-c1)
+        phi = math.atan2(b-c1, a-c0) + angle
+        a = rho * math.cos(phi) + c0
+        b = rho * math.sin(phi) + c1
+        return a, b
+
+    def get_center(self):
+        return sum(node.x for node in self.nodes)/len(self.nodes), \
+               sum(node.y for node in self.nodes)/len(self.nodes), \
+               sum(node.z for node in self.nodes)/len(self.nodes)
+
+    def rotate(self, axis, angle=1):
+        center = Node(self.get_center())
+
+        all = ['x', 'y', 'z']
+        all.remove(axis)
+        ele1, ele2 = tuple(all)
+        print(ele1, ele2)
+
+        for node in self.nodes:
+            a, b = self.rotation((getattr(node, ele1), getattr(node, ele2)), angle,
+                                (getattr(center, ele1), getattr(center, ele2)))
+            setattr(node, ele1, a)
+            setattr(node, ele2, b)
+
 
 if __name__ == "__main__":
     cube_nodes = [(x, y, z) for x in (0, 1) for y in (0, 1) for z in (0, 1)]
@@ -42,6 +95,8 @@ if __name__ == "__main__":
     cube.addEdges([(n, n + 4) for n in range(0, 4)])
     cube.addEdges([(n, n + 1) for n in range(0, 8, 2)])
     cube.addEdges([(n, n + 2) for n in (0, 1, 4, 5)])
-
+    cube.outputNodes()
+    cube.outputEdges()
+    cube.rotate()
     cube.outputNodes()
     cube.outputEdges()
