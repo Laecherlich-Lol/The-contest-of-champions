@@ -18,8 +18,14 @@ class Game:
         self.me = person.Person(1, self.screen, self.SCREEN)
         self.me.person_draw()
 
+        self.track = Track.Obstacle(self.screen, self.SCREEN)
+
+    # def scenes_generator(self):
+    #     self.track.rect_object()
+
     def update(self):
         Track.generate_track(self.screen, self.SCREEN)
         self.me.person_draw()
+        self.track.normal_obstacle()
         pygame.display.flip()
 
