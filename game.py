@@ -1,6 +1,7 @@
 import pygame
 import person
 import Track
+import threading
 
 
 class Game:
@@ -12,7 +13,8 @@ class Game:
         pygame.display.set_caption('run')
 
         self.screen = pygame.display.set_mode(self.SCREEN)
-        Track.generate_track(self.screen, self.SCREEN)
+        self.tracks = Track.Track(self.screen)
+        self.tracks.generate_track(self.SCREEN)
         pygame.display.flip()
 
         self.me = person.Person(1, self.screen, self.SCREEN)
@@ -20,12 +22,23 @@ class Game:
 
         self.track = Track.Obstacle(self.screen, self.SCREEN)
 
+        self.run = Track.Running(self.tracks.generate_track(self.SCREEN), self.SCREEN)
+
     # def scenes_generator(self):
     #     self.track.rect_object()
 
-    def update(self):
-        Track.generate_track(self.screen, self.SCREEN)
+    def person_update(self):
         self.me.person_draw()
-        self.track.normal_obstacle()
+        return False
+
+    def update(self):
+        # self.tracks.generate_track(self.SCREEN)
+        # if not self.person_update():
+        self.tracks.clear_track()
+        self.run.begin()
+        self.tracks.blit_track()
+        self.me.person_draw()
         pygame.display.flip()
 
+    # def stop(self):
+    #     return self.move.cancel()
