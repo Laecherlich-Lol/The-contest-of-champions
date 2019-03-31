@@ -22,7 +22,7 @@ class Game:
 
         self.track = Track.Obstacle(self.screen, self.SCREEN)
 
-        self.run = Track.Running(self.tracks.generate_track(self.SCREEN), self.SCREEN)
+        self.run = Track.Running(self.tracks.generate_track(self.SCREEN), self.SCREEN, self.me)
 
     # def scenes_generator(self):
     #     self.track.rect_object()
@@ -32,8 +32,6 @@ class Game:
         return False
 
     def update(self):
-        # self.tracks.generate_track(self.SCREEN)
-        # if not self.person_update():
         self.tracks.clear_track()
         self.run.begin()
         self.tracks.blit_track()
