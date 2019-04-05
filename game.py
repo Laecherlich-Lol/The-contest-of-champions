@@ -1,7 +1,6 @@
 import pygame
 import person
 import Track
-import threading
 
 
 class Game:
@@ -37,6 +36,12 @@ class Game:
         self.tracks.blit_track()
         self.me.person_draw()
         pygame.display.flip()
+
+    def move(self, ins):
+        if ins == pygame.K_LEFT:
+            self.me.move_person('left')
+        if ins == pygame.K_RIGHT:
+            self.me.move_person('right')
 
     # def stop(self):
     #     return self.move.cancel()

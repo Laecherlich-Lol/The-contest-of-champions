@@ -29,7 +29,35 @@ def double_pointer(lis):
     # print(p1, p0, max, min)
     return p0 - p1 if p0 > p1 else p1 -p0
 
-import datetime
-t0= datetime.datetime.now()
-a = double_pointer([2, 6, 7, 4, 4, 9, 3, 5, 2, 6, 8, 2, 1, 0, 5]*10000)
-print(a, (datetime.datetime.now()-t0).microseconds)
+
+# import datetime
+# t0= datetime.datetime.now()
+# a = double_pointer([2, 6, 7, 4, 4, 9, 3, 5, 2, 6, 8, 2, 1, 0, 5]*10000)
+# print(a, (datetime.datetime.now()-t0).microseconds)
+
+
+def reverse_pyramid(n):
+    a = int((n + 1) / 2)
+    new_n = []
+    for i in range(n):
+        new_n.append('*')
+    for i in range(a):
+        for j in new_n:
+            print(j, end='')
+        print()
+        new_n[i] = ' '
+        new_n[-(i+1)] = ' '
+
+
+reverse_pyramid(7)
+
+
+def reverse_num(n):
+    for i in range(len(n)//2):
+        n[-i-1], n[i] = n[i], n[-i-1]
+
+    return n
+
+
+print(reverse_num([1, 2, 3, 4, 5]))
+
