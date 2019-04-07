@@ -26,9 +26,9 @@ class Game:
     # def scenes_generator(self):
     #     self.track.rect_object()
 
-    def person_update(self):
-        self.me.person_draw()
-        return False
+    # def person_update(self):
+    #     self.me.person_draw()
+    #     return False
 
     def update(self):
         self.tracks.clear_track()

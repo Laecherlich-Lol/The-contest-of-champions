@@ -17,7 +17,7 @@ while running:
 
         elif event.type == pygame.KEYDOWN:
             thisgame.move(event.key)
-        thisgame.person_update()
+        # thisgame.person_update()
         # print('here')
 
 

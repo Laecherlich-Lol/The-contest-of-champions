@@ -60,4 +60,3 @@ def reverse_num(n):
 
 
 print(reverse_num([1, 2, 3, 4, 5]))
-
