@@ -31,16 +31,13 @@ class Person:
     def set_height(self, height):
         self.height = height
 
-    def get_view_size(self):
-        return self.size[0]+self.height, self.size[1]+self.height
+    def get_view_size(self, i=None):
+        return self.size[0]+self.height, self.size[1]+self.height if i is None else self.size[i]+self.height
 
     def set_status(self, status):
         self.status = status
 
     def get_re_pos(self):
-        return self.relative_pos
-
-    def get_relative_pos(self):
         return self.relative_pos
 
     def get_track_num(self):
