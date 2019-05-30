@@ -22,9 +22,10 @@ class Display:
             self.screen.blit(track.get_track(), track.get_pos())
 
         def pos(num):
-            return self.me.get_relative_pos()[num]*self.tracks[self.me.get_track_num()].get_size()[num]
-        pygame.draw.rect(self.screen, self.me.color, pygame.Rect((pos(0), 640), self.me.get_view_size()))
-        print(self.me.get_view_size)
+            return self.tracks[self.me.get_track_num()].get_size()[num]
+        pygame.draw.rect(self.tracks[self.me.get_track_num()],
+                         self.me.color, pygame.Rect((pos(0), 640), self.me.get_view_size()))
+
 
 if __name__ == '__main__':
     pygame.init()

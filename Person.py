@@ -40,9 +40,6 @@ class Person:
     def get_re_pos(self):
         return self.relative_pos
 
-    def get_pos(self):
-        return self.track_num
-
     def get_relative_pos(self):
         return self.relative_pos
 
