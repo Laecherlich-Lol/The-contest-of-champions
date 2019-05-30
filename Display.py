@@ -20,11 +20,11 @@ class Display:
     def draw(self):
         for track in self.tracks:
             self.screen.blit(track.get_track(), track.get_pos())
-
+            print(track.get_pos(), track.get_size(), track.color)
+        #
         def pos(num):
             return self.me.get_relative_pos()[num]*self.tracks[self.me.get_track_num()].get_size()[num]
         pygame.draw.rect(self.screen, self.me.color, pygame.Rect((pos(0), 640), self.me.get_view_size()))
-        print(self.me.get_view_size)
 
 if __name__ == '__main__':
     pygame.init()
@@ -33,6 +33,7 @@ if __name__ == '__main__':
     display.draw()
     running = True
     while running:
+        pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
