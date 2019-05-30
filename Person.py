@@ -32,7 +32,10 @@ class Person:
         self.height = height
 
     def get_view_size(self, i=None):
-        return self.size[0]+self.height, self.size[1]+self.height if i is None else self.size[i]+self.height
+        if i is None:
+            return self.size[0]+self.height, self.size[1]+self.height
+        else:
+            return self.size[i]+self.height
 
     def set_status(self, status):
         self.status = status

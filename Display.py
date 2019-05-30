@@ -18,17 +18,16 @@ class Display:
                 self.tracks[i].update_track()
 
     def draw(self):
+        def pos(num):
+            return self.me.get_re_pos()[num]\
+                   *self.tracks[self.me.get_track_num()].get_size()[num]-(self.me.get_view_size(num))/2
+
+        pygame.draw.rect(self.tracks[self.me.get_track_num()].get_track(),
+                         self.me.color, pygame.Rect((pos(0), 640), self.me.get_view_size()))
+
         for track in self.tracks:
             self.screen.blit(track.get_track(), track.get_pos())
-            print(track.get_pos(), track.get_size(), track.color)
 
-        def pos(num):
-            print(num)
-            print(self.me.get_view_size(i=num))
-            return self.me.get_re_pos()[num]\
-                   *self.tracks[self.me.get_track_num()].get_size()[num]-self.me.get_view_size(num)/2
-        pygame.draw.rect(self.tracks[self.me.get_track_num()],
-                         self.me.color, pygame.Rect((pos(0), 640), self.me.get_view_size()))
 
 
 if __name__ == '__main__':
