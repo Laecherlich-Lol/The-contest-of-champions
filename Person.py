@@ -2,7 +2,7 @@ import pygame
 
 
 class Person:
-    def __init__(self, size=(40, 40), relative_pos=(0.5, 0.3), track_num=1, color=(0, 0, 0), status='run', height=0):
+    def __init__(self, size=(100, 100), relative_pos=(0.5, 0.8), track_num=1, color=(0, 0, 0), status='run', height=0):
         '''
 
         :param size:
