@@ -1,5 +1,5 @@
 import pygame
-import person
+import Person
 import Track
 
 
@@ -16,7 +16,7 @@ class Game:
         self.tracks.generate_track(self.SCREEN)
         pygame.display.flip()
 
-        self.me = person.Person(1, self.screen, self.SCREEN)
+        self.me = Person.Person(1, self.screen, self.SCREEN)
         self.me.person_draw()
 
         self.track = Track.Obstacle(self.screen, self.SCREEN)

@@ -24,9 +24,6 @@ class Person:
             self.track_num -= 1 if self.track_num > 0 else 0
         elif direction == 'right':
             self.track_num += 1 if self.track_num < total-1 else 0
-        # elif instruction == 'up':
-        #     self.delta = default
-        #     self.dev = 40 - self.delta
 
     def set_height(self, height):
         self.height = height

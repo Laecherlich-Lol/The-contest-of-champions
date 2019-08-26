@@ -13,7 +13,7 @@ class Display:
         self.ob = None
 
     def setup(self, total=3):
-        self.ob = Obstacle.Obstacle((self.size[0]/total-10, 300), 'green', (0, 255, 0))
+        self.ob = Obstacle.Obstacle((self.size[0]/total-10, 300), 'red', (255, 0, 0))
         self.me = Person.Person()
         for i in range(total):
             self.tracks.append(Track.Track((self.size[0]/total*i, 0), (self.size[0]/total, self.size[1])))  #TODO check int or float
@@ -29,7 +29,7 @@ class Display:
         pygame.draw.rect(self.tracks[self.me.get_track_num()].get_track(),
                          self.me.color, pygame.Rect((pos(0), pos(1)), self.me.get_view_size()))
 
-        pygame.draw.rect(self.tracks[0].get_track(), self.ob.get_color(),
+        pygame.draw.rect(self.tracks[1].get_track(), self.ob.get_color(),
                          pygame.Rect((5, -self.ob.get_size()[1]+self.ob.get_position()), self.ob.get_size()))
 
         for track in self.tracks:
